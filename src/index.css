@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Lora', Georgia, serif;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.15s ease-out; }
+.text-content { white-space: pre-line; }
+.custom-scroll::-webkit-scrollbar { width: 5px; }
+.custom-scroll::-webkit-scrollbar-track { background: transparent; }
+.custom-scroll::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+.dark .custom-scroll::-webkit-scrollbar-thumb { background: #374151; }
+::selection { background: rgba(0, 0, 0, 0.07); }
+.dark ::selection { background: rgba(255, 255, 255, 0.12); }
+.score-stroke { transition: stroke-dashoffset 0.8s ease-out; }
