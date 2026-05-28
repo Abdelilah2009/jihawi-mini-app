@@ -174,13 +174,28 @@ function renderHome() {
   </div>`;
 
   app.querySelectorAll('.filter-tab').forEach(b => b.addEventListener('click', () => { state.filter = b.dataset.filter; renderHome(); }));
-  app.querySelectorAll('.exam-card').forEach(c => c.addEventListener('click', () => startQuiz(c.dataset.exam)));
+  app.querySelectorAll('.exam-card').forEach(c => c.addEventListener('click', () => openExam(c.dataset.exam)));
   refreshIcons();
 }
 
 // ═══════════════════════════════════════════════════
 //  QUIZ (no feedback — just answer)
 // ═══════════════════════════════════════════════════
+function isExamScored(eid) {
+  const ans = state.answers[eid] || {};
+  return Object.values(ans).some(a => a.scored !== undefined);
+}
+
+function openExam(eid) {
+  state.examId = eid;
+  if (isExamScored(eid)) {
+    state.view = 'correction';
+    renderCorrection();
+  } else {
+    startQuiz(eid);
+  }
+}
+
 function startQuiz(eid) {
   state.view = 'quiz'; state.examId = eid; state.currentQ = 0;
   if (!state.answers[eid]) state.answers[eid] = {};
