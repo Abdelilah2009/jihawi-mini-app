@@ -931,4 +931,323 @@ Rahma lui avait offert un bracelet de perles bleues. Il l'accepta avec joie et l
   }
 }
 
+// ──────────────────────────────────────────────────
+// 8) 2017 — Marrakech-Safi — Session Normale
+// ──────────────────────────────────────────────────
+,{
+  id: "marrakech-2017",
+  year: 2017,
+  region: "Marrakech-Safi",
+  session: "Normale",
+  work: { title: "La Boîte à merveilles", author: "Ahmed Sefrioui", genre: "Roman autobiographique", year: 1954 },
+  texte: `La voix de ma mère me tira des profondeurs du sommeil. Je nageai, un bon moment, dans une lumière rouge parcourue d'étincelles et d'astres errants, puis, j'ouvris les yeux. Vite, je les refermai, espérant retrouver le noir si reposant et si frais. La voix insistait :
+— Réveille-toi, il est trois heures du matin. Je t'ai préparé ton beau gilet, ta chemise neuve et ta sacoche. Tu n'as pas encore vu ta belle sacoche brodée. Ouvre les yeux ! Réveille-toi donc !
+Je pleurnichais, je me frottai énergiquement les paupières de mes poings fermés. Je tentai plusieurs fois de me recoucher, mais ma mère fut impitoyable. Elle se mouilla la main et me la passa sur la figure. Mes oreilles cessèrent de bourdonner. J'entrouvris mes cils avec précaution. Mon père, habillé d'une djellaba de laine fine, me souriait.
+— Prépare-toi pour fêter l'Achoura au Msid avec tes camarades. Du courage ! Du courage !
+Ce fut dans un état de somnambule que je me lavai les yeux, me rinçai la bouche, me rafraîchis les membres. Je retrouvai ma lucidité lorsque ma mère me passa, à même la peau, ma chemise neuve, craquante d'apprêt. Elle me grattait horriblement. À chaque mouvement, je remplissais la pièce d'un bruit de papier froissé. Je mis mon gilet rouge aux dessins compliqués et bien en relief. Ma sacoche en bandoulière, je complétai cet ensemble très élégant par la djellaba blanche qui dormait au fond du coffre de ma mère. Elle sentait la fleur d'oranger et la rose séchée.
+Me voilà devenu un autre homme ! J'étais complètement réveillé. J'avais hâte de partir à l'école. Les vêtements, les chaussures, tout était neuf. Plein de dignité et d'assurance, je précédai mon père dans l'escalier.
+La lumière brillait à toutes les fenêtres de la maison. Hommes et femmes commençaient l'année dans l'activité. Ceux qui restaient au lit un matin comme celui-ci se sentiraient, durant douze mois, indolents, paresseux.
+L'appel d'un mendiant nous arrivait de la rue. J'entendais le bruit de sa canne. C'était sûrement un aveugle.
+Je perdais mes babouches tous les trois pas. Mes parents voyaient grand. Ni les vêtements, ni les chaussures n'étaient à ma taille. Mais j'étais heureux.`,
+  footnotes: "somnambule : personne qui agit en dormant · apprêt : traitement qui rend le tissu rigide · babouches : chaussures traditionnelles marocaines",
+  questions: [
+    {
+      type: "table",
+      text: "Complétez le tableau suivant :",
+      points: 1,
+      section: "contextualisation",
+      fields: [
+        { label: "Titre de l'œuvre", answer: "La Boîte à merveilles" },
+        { label: "Nom et prénom de l'auteur", answer: "Ahmed Sefrioui" },
+        { label: "Genre littéraire", answer: "Roman autobiographique" },
+        { label: "Date de publication", answer: "1954" }
+      ]
+    },
+    {
+      type: "qcm",
+      text: "Parmi les faits suivants, lequel a eu lieu AVANT ce texte ?",
+      points: 1,
+      section: "contextualisation",
+      options: [
+        "Au Msid, les élèves fêtent l'Achoura en récitant des versets coraniques",
+        "Lalla Aïcha rend visite à la mère de Sidi Mohammed",
+        "Le narrateur accompagne son père chez le coiffeur"
+      ],
+      correctIndex: 2,
+      explanation: "Avant la matinée de l'Achoura, le narrateur avait accompagné son père chez le coiffeur pour se préparer à la fête. Lalla Aïcha rend visite plus tôt dans le récit, et la fête au Msid a lieu après ce passage."
+    },
+    {
+      type: "vf",
+      text: "Dites si les affirmations suivantes sont vraies ou fausses. Justifiez chaque réponse par une phrase du texte.",
+      points: 1,
+      section: "comprehension",
+      statements: [
+        { text: "Sidi Mohammed n'est pas pressé d'aller à l'école.", answer: false, justification: "Faux — le texte dit : « J'avais hâte de partir à l'école. » Il est très pressé d'y aller." },
+        { text: "Sidi Mohammed doute fort que le mendiant soit aveugle.", answer: false, justification: "Faux — le texte dit : « C'était sûrement un aveugle. » Le mot « sûrement » montre qu'il n'en doute pas." }
+      ]
+    },
+    {
+      type: "qcm",
+      text: "« L'appel d'un mendiant nous arrivait de la rue. » Le pronom « nous » remplace :",
+      points: 1,
+      section: "comprehension",
+      options: [
+        "Le narrateur et sa mère",
+        "Le narrateur et son père",
+        "Le narrateur et un de ses camarades du Msid"
+      ],
+      correctIndex: 1,
+      explanation: "Le « nous » désigne Sidi Mohammed et son père, car la fin du texte indique que le narrateur descend l'escalier avec son père pour aller au Msid."
+    },
+    {
+      type: "short",
+      text: "Relevez dans le texte quatre mots ou expressions appartenant au champ lexical du sommeil.",
+      points: 1,
+      section: "langue",
+      answer: "sommeil / somnambule / se recoucher / réveille-toi",
+      alternatives: ["sommeil", "somnambule", "recoucher", "réveille-toi", "dormait", "reposant", "profondeurs du sommeil", "réveillé", "refermai", "cils"],
+      explanation: "Le champ lexical du sommeil est très présent au début du texte : sommeil, somnambule, se recoucher, réveille-toi, dormait, reposant, réveillé..."
+    },
+    {
+      type: "qcm",
+      text: "Quel argument la mère emploie-t-elle pour encourager son fils à se réveiller ?",
+      points: 1,
+      section: "comprehension",
+      options: [
+        "Porter de nouveaux habits à l'occasion de la fête de l'Achoura",
+        "Participer à la fête de l'Achoura en compagnie de ses camarades",
+        "Se frotter violemment la figure et les paupières"
+      ],
+      correctIndex: 0,
+      explanation: "La mère dit : « Je t'ai préparé ton beau gilet, ta chemise neuve et ta sacoche. Tu n'as pas encore vu ta belle sacoche brodée. » Elle attire son attention sur les beaux habits neufs pour le motiver."
+    },
+    {
+      type: "short",
+      text: "Trouvez dans le texte deux phrases montrant le caractère comique des habits portés par Sidi Mohammed.",
+      points: 1,
+      section: "comprehension",
+      answer: "Je perdais mes babouches tous les trois pas. / Ni les vêtements, ni les chaussures n'étaient à ma taille.",
+      alternatives: ["je perdais mes babouches", "ni les vêtements ni les chaussures n'étaient à ma taille", "je remplissais la pièce d'un bruit de papier froissé", "elle me grattait horriblement", "mes parents voyaient grand"],
+      explanation: "Le comique vient du décalage entre l'élégance des habits neufs et leur taille inadaptée : il perd ses babouches, ses vêtements ne sont pas à sa taille, la chemise craque comme du papier froissé."
+    },
+    {
+      type: "qcm",
+      text: "Identifiez la figure de style dans : « Je nageai, un bon moment, dans une lumière rouge... »",
+      points: 0.5,
+      section: "langue",
+      options: ["Comparaison", "Métaphore", "Personnification", "Hyperbole"],
+      correctIndex: 1,
+      explanation: "C'est une métaphore : le narrateur est décrit comme nageant dans la lumière, sans outil de comparaison (comme, tel). Elle traduit l'état entre sommeil et éveil."
+    },
+    {
+      type: "qcm",
+      text: "Identifiez la figure de style dans : « ...la djellaba blanche qui dormait au fond du coffre de ma mère. »",
+      points: 0.5,
+      section: "langue",
+      options: ["Comparaison", "Métaphore", "Personnification", "Hyperbole"],
+      correctIndex: 2,
+      explanation: "C'est une personnification : la djellaba est dotée de la qualité humaine de « dormir ». L'enfant donne vie aux objets, ce qui est un trait central de son imaginaire."
+    },
+    {
+      type: "input",
+      text: "« Me voilà devenu un autre homme ! » Pensez-vous que porter des habits neufs et élégants puisse changer un individu et lui donner plus de valeur ? Justifiez en une phrase ou deux.",
+      points: 1,
+      section: "reaction",
+      sampleAnswer: "Les habits neufs peuvent renforcer la confiance en soi et donner un sentiment de dignité, comme le montre l'enthousiasme de Sidi Mohammed. Cependant, la vraie valeur d'une personne ne dépend pas de son apparence mais de ses qualités intérieures et de son comportement."
+    },
+    {
+      type: "input",
+      text: "« Si Sidi Mohammed a de la difficulté à se réveiller, c'est parce qu'il est un rêveur. » Êtes-vous d'accord avec cette observation ? Justifiez.",
+      points: 1,
+      section: "reaction",
+      sampleAnswer: "Je suis partiellement d'accord. Sidi Mohammed est effectivement un rêveur — il « nage dans une lumière rouge » et vit dans un monde imaginaire (sa boîte à merveilles). Mais sa difficulté à se réveiller s'explique aussi simplement : il est trois heures du matin, un horaire très tôt pour un enfant."
+    }
+  ],
+  production: {
+    sujet: "« On entend dire assez souvent que les gens qui se lèvent tard sont des paresseux et des fainéants qui n'arriveront jamais à réussir dans leur vie. »\n\nPartagez-vous cette opinion ? Rédigez un texte d'une quinzaine de lignes dans lequel vous exprimerez votre point de vue appuyé par des arguments et des exemples.",
+    points: 10,
+    criteres: [
+      "Respect de la consigne (répondre au sujet) — 2 pts",
+      "Organisation cohérente (introduction, développement, conclusion) — 2 pts",
+      "Précision des arguments, exemples et liens logiques — 2 pts",
+      "Correction de la langue (syntaxe, vocabulaire, orthographe, conjugaison, ponctuation) — 4 pts"
+    ]
+  }
+},
+
+// ──────────────────────────────────────────────────
+// 9) 2017 — Marrakech-Safi — Session Rattrapage — Antigone
+// ──────────────────────────────────────────────────
+{
+  id: "marrakech-2017-rattrapage",
+  year: 2017,
+  region: "Marrakech-Safi",
+  session: "Rattrapage",
+  work: { title: "Antigone", author: "Jean Anouilh", genre: "Tragédie moderne", year: 1944 },
+  texte: `CRÉON, entre avec son page.
+Je les ai fait coucher l'un près de l'autre, enfin ! Ils sont lavés, maintenant, reposés. Ils sont seulement un peu pâles, mais si calmes. Deux amants au lendemain de la première nuit. Ils ont fini, eux.
+
+LE CHŒUR
+Pas toi, Créon. Il te reste encore quelque chose à apprendre. Eurydice, la reine, ta femme...
+
+CRÉON
+Une bonne femme parlant toujours de son jardin, de ses tricots, de ses éternels tricots pour les pauvres. C'est drôle comme les pauvres gens ont éternellement besoin de tricots. On dirait qu'ils n'ont besoin que de tricots...
+
+LE CHŒUR
+Les pauvres de Thèbes auront froid, cet hiver, Créon. En apprenant la mort de son fils, la reine a posé ses aiguilles, sagement, après avoir terminé son rang, posément, comme tout ce qu'elle fait, un peu plus tranquillement peut-être que d'habitude. Et puis elle est passée dans sa chambre, sa chambre à l'odeur de lavande, aux petits napperons brodés et aux cadres de peluche, pour s'y couper la gorge, Créon. Elle est étendue maintenant sur un des petits lits jumeaux démodés, à la même place où tu l'as vue jeune fille un soir, et avec le même sourire, à peine un peu plus triste. Et s'il n'y avait pas cette large tache rouge sur les linges autour de son cou, on pourrait croire qu'elle dort.
+
+CRÉON
+Elle aussi. Ils dorment tous. C'est bien. La journée a été rude. (Un temps. Il dit sourdement) Cela doit être bon de dormir.
+
+LE CHŒUR
+Et tu es tout seul maintenant, Créon ?
+
+CRÉON
+Tout seul, oui. (Un silence. Il pose sa main sur l'épaule de son page.) Petit...
+
+LE PAGE
+Monsieur ?
+
+CRÉON
+Je vais te dire, à toi. Ils ne savent pas, les autres ; on est là, devant l'ouvrage, on ne peut pourtant pas se croiser les bras. Ils disent que c'est une sale besogne, mais si on ne la fait pas, qui la fera ?
+
+LE PAGE
+Je ne sais pas, monsieur.
+
+CRÉON
+Bien sûr, tu ne sais pas. Tu en as de la chance ! Ce qu'il faudrait, c'est ne jamais savoir. Il te tarde d'être grand, toi ?
+
+LE PAGE
+Oh oui, monsieur !
+
+CRÉON
+Tu es fou, petit. Il faudrait ne jamais devenir grand. (L'heure sonne au loin, il murmure) Cinq heures. Qu'est-ce que nous avons aujourd'hui, à cinq heures ?
+
+LE PAGE
+Conseil, monsieur.
+
+CRÉON
+Eh bien, si nous avons conseil, petit, nous allons y aller.
+
+Ils sortent, Créon s'appuyant sur le page.`,
+  footnotes: "sourdement : d'une voix sourde, étouffée · sale besogne : travail ingrat et difficile · il te tarde : tu as hâte",
+  questions: [
+    {
+      type: "table",
+      text: "Complétez le tableau suivant :",
+      points: 1,
+      section: "contextualisation",
+      fields: [
+        { label: "Titre de l'œuvre", answer: "Antigone" },
+        { label: "Nom et prénom de l'auteur", answer: "Jean Anouilh" },
+        { label: "Genre littéraire", answer: "Tragédie moderne" },
+        { label: "Siècle de publication", answer: "XXe siècle" }
+      ]
+    },
+    {
+      type: "qcm",
+      text: "Le pronom « les » dans la première réplique de Créon (« Je les ai fait coucher ») remplace :",
+      points: 0.5,
+      section: "contextualisation",
+      options: ["Ismène et Hémon", "Antigone et Hémon", "Œdipe et Jocaste"],
+      correctIndex: 1,
+      explanation: "« Les » désigne Antigone et Hémon. Créon a fait coucher leurs corps l'un près de l'autre après leur mort. Hémon s'est suicidé après avoir trouvé Antigone morte."
+    },
+    {
+      type: "qcm",
+      text: "« Ils ont fini, eux. » (Première réplique de Créon) Cette affirmation signifie :",
+      points: 0.5,
+      section: "contextualisation",
+      options: ["Ils se sont mariés", "Ils ont trouvé la mort", "Ils se sont séparés"],
+      correctIndex: 1,
+      explanation: "Créon parle d'Antigone et Hémon qui sont morts. « Ils ont fini » signifie que leur souffrance est terminée — contrairement à Créon qui doit continuer à vivre et à gouverner."
+    },
+    {
+      type: "short",
+      text: "Relevez dans le texte un exemple de didascalie montrant la fatigue de Créon.",
+      points: 1,
+      section: "comprehension",
+      answer: "Un temps. Il dit sourdement",
+      alternatives: ["il dit sourdement", "un silence", "il murmure", "Créon s'appuyant sur le page", "s'appuyant sur le page", "Un temps"],
+      explanation: "Plusieurs didascalies montrent l'épuisement de Créon : « Il dit sourdement » (voix étouffée), « il murmure », et surtout « Créon s'appuyant sur le page » — il a besoin de s'appuyer sur un enfant pour marcher."
+    },
+    {
+      type: "qcm",
+      text: "Eurydice est présentée par Créon comme :",
+      points: 0.5,
+      section: "comprehension",
+      options: ["Une femme égoïste", "Une femme généreuse", "Une femme orgueilleuse"],
+      correctIndex: 1,
+      explanation: "Créon décrit Eurydice comme généreuse : elle fait « ses éternels tricots pour les pauvres ». Malgré son ton ironique, il reconnaît son dévouement envers les démunis."
+    },
+    {
+      type: "qcm",
+      text: "Le Chœur apprend à Créon qu'Eurydice est morte :",
+      points: 0.5,
+      section: "comprehension",
+      options: ["Suite à une crise cardiaque", "Suite à un suicide"],
+      correctIndex: 1,
+      explanation: "Eurydice s'est suicidée : le Chœur dit qu'elle est passée dans sa chambre « pour s'y couper la gorge ». Elle s'est donné la mort en apprenant la mort de son fils Hémon."
+    },
+    {
+      type: "qcm",
+      text: "« C'est une sale besogne... » Cet énoncé veut dire :",
+      points: 1,
+      section: "comprehension",
+      options: ["C'est un travail très reposant", "C'est une tâche très difficile", "C'est une occupation très amusante"],
+      correctIndex: 1,
+      explanation: "« Sale besogne » signifie un travail ingrat, difficile et désagréable. Créon parle du pouvoir et de la responsabilité de gouverner — un fardeau que personne d'autre ne veut assumer."
+    },
+    {
+      type: "short",
+      text: "Relevez dans la deuxième réplique du Chœur quatre mots appartenant au champ lexical du sommeil.",
+      points: 1,
+      section: "langue",
+      answer: "dort / étendue / lits / calmes",
+      alternatives: ["dort", "étendue", "lits", "calmes", "coucher", "reposés", "dorment", "dormir", "tranquillement"],
+      explanation: "Le champ lexical du sommeil/repos est omniprésent : dort, étendue, lits, coucher, reposés, dorment, dormir, calmes, tranquillement. Il crée une ambiguïté entre le sommeil et la mort."
+    },
+    {
+      type: "qcm",
+      text: "La figure de style dominante dans la deuxième réplique de Créon (« ses tricots, de ses éternels tricots... tricots ») est :",
+      points: 1,
+      section: "langue",
+      options: ["Une antithèse", "Une répétition", "Un oxymore"],
+      correctIndex: 1,
+      explanation: "Le mot « tricots » est répété trois fois dans la réplique de Créon. Cette répétition traduit l'ironie et l'agacement de Créon, mais aussi l'absurdité de la situation face à la mort."
+    },
+    {
+      type: "input",
+      text: "Transposez au discours indirect : « Les pauvres de Thèbes auront froid cet hiver. » en commençant par : Le Chœur affirma...",
+      points: 1,
+      section: "langue",
+      sampleAnswer: "Le Chœur affirma que les pauvres de Thèbes auraient froid cet hiver-là."
+    },
+    {
+      type: "input",
+      text: "« Créon est un personnage terriblement seul qui parvient à vivre malgré la perte de ses proches. » Partagez-vous cette observation ? Justifiez.",
+      points: 0.5,
+      section: "reaction",
+      sampleAnswer: "Oui, Créon est terriblement seul : il a perdu Antigone, Hémon et Eurydice. Pourtant, il continue à assumer son rôle de roi — il va au Conseil à cinq heures. Sa solitude est le prix du pouvoir et du devoir. Il « s'appuie sur le page » comme seul compagnon, ce qui rend sa situation encore plus tragique."
+    },
+    {
+      type: "input",
+      text: "« Ils dorment tous. C'est bien. » Êtes-vous d'accord avec cette affirmation de Créon ? Justifiez.",
+      points: 0.5,
+      section: "reaction",
+      sampleAnswer: "Créon utilise le sommeil comme euphémisme pour la mort. En disant « c'est bien », il exprime un mélange de résignation et d'envie — les morts n'ont plus à souffrir, contrairement à lui. On peut comprendre sa lassitude, mais affirmer que la mort est « bien » est tragique et montre l'ampleur de son désespoir."
+    }
+  ],
+  production: {
+    sujet: "« Amusez-vous bien comme vous pouvez, sachez que devenir adulte implique beaucoup de responsabilités. »\n\nPartagez-vous l'opinion de cet écrivain ? Rédigez un texte d'une quinzaine de lignes dans lequel vous exposerez votre point de vue appuyé d'arguments et d'exemples.",
+    points: 10,
+    criteres: [
+      "Respect de la consigne (répondre au sujet) — 2 pts",
+      "Organisation cohérente (introduction, développement, conclusion) — 2 pts",
+      "Précision des arguments, exemples et liens logiques — 2 pts",
+      "Correction de la langue (syntaxe, vocabulaire, orthographe, conjugaison, ponctuation) — 4 pts"
+    ]
+  }
+}
+
 ]; // end EXAMS
