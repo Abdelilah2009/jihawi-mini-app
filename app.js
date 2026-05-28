@@ -14,7 +14,6 @@ const state = {
   examId: null,
   currentQ: 0,
   answers: {},
-  selfEvals: {},
   productions: {},
   bestScores: {},
   filter: 'all'
@@ -23,11 +22,11 @@ const state = {
 function loadState() {
   try {
     const s = JSON.parse(localStorage.getItem('jihawi_state'));
-    if (s) { state.answers = s.answers || {}; state.selfEvals = s.selfEvals || {}; state.productions = s.productions || {}; state.bestScores = s.bestScores || {}; }
+    if (s) { state.answers = s.answers || {}; state.productions = s.productions || {}; state.bestScores = s.bestScores || {}; }
   } catch {}
 }
 function saveState() {
-  localStorage.setItem('jihawi_state', JSON.stringify({ answers: state.answers, selfEvals: state.selfEvals, productions: state.productions, bestScores: state.bestScores }));
+  localStorage.setItem('jihawi_state', JSON.stringify({ answers: state.answers, productions: state.productions, bestScores: state.bestScores }));
 }
 
 // ── Theme ──────────────────────────────────────────
@@ -83,15 +82,15 @@ function scoreAll(eid) {
 }
 
 function calcScore(eid) {
-  const exam = getExam(eid); if (!exam) return { score: 0, total: 0 };
-  const ans = state.answers[eid] || {}, se = state.selfEvals[eid] || {};
-  let score = 0, total = 0;
+  const exam = getExam(eid); if (!exam) return { score: 0, total: 0, inputPts: 0 };
+  const ans = state.answers[eid] || {};
+  let score = 0, total = 0, inputPts = 0;
   exam.questions.forEach((q, i) => {
+    if (q.type === 'input') { inputPts += q.points; return; }
     total += q.points;
     if (ans[i]?.scored !== undefined) score += ans[i].scored;
-    if (se[i] !== undefined) score += se[i];
   });
-  return { score: Math.round(score * 100) / 100, total };
+  return { score: Math.round(score * 100) / 100, total, inputPts };
 }
 
 const sectionMeta = {
@@ -185,7 +184,6 @@ function renderHome() {
 function startQuiz(eid) {
   state.view = 'quiz'; state.examId = eid; state.currentQ = 0;
   if (!state.answers[eid]) state.answers[eid] = {};
-  if (!state.selfEvals[eid]) state.selfEvals[eid] = {};
   renderQuiz();
 }
 
@@ -493,10 +491,9 @@ function renderProduction() {
 function renderCorrection() {
   state.view = 'correction';
   const exam = getExam(state.examId);
-  const { score, total } = calcScore(state.examId);
+  const { score, total, inputPts } = calcScore(state.examId);
   const pct = total > 0 ? Math.round((score / total) * 100) : 0;
 
-  // Save best
   if (!state.bestScores[state.examId] || score > state.bestScores[state.examId].score) {
     state.bestScores[state.examId] = { score, total, date: new Date().toLocaleDateString('fr-FR') };
     saveState();
@@ -508,36 +505,31 @@ function renderCorrection() {
   else if (pct >= 40) ringColor = '#d97706';
   else ringColor = '#dc2626';
 
-  // Breakdown
   const sections = {};
   exam.questions.forEach((q, i) => {
+    if (q.type === 'input') return;
     if (!sections[q.section]) sections[q.section] = { earned: 0, total: 0 };
     sections[q.section].total += q.points;
-    const a = (state.answers[state.examId] || {})[i], se = (state.selfEvals[state.examId] || {})[i];
+    const a = (state.answers[state.examId] || {})[i];
     if (a?.scored !== undefined) sections[q.section].earned += a.scored;
-    if (se !== undefined) sections[q.section].earned += se;
   });
 
-  const C = 2 * Math.PI * 54;
-  const offset = C * (1 - pct / 100);
+  const C = 2 * Math.PI * 54, offset = C * (1 - pct / 100);
 
   app.innerHTML = `<div class="fade-in space-y-5">
-    <!-- Header -->
     <div class="flex items-center justify-between gap-4 flex-wrap">
       <div>
         <h2 class="text-lg font-semibold tracking-tight">Correction — ${exam.year} ${exam.region}</h2>
         <p class="font-serif italic text-sm text-gray-500 dark:text-gray-400">${exam.work.title} — ${exam.work.author}</p>
       </div>
       <div class="flex items-center gap-2">
+        <button class="${btnPrimary}" id="copyAll">${ic('copy', 'w-4 h-4')} <span id="copyLabel">Copier pour IA</span></button>
         <button class="${btnSecondary}" id="retryQuiz">${ic('rotate-ccw', 'w-4 h-4')} Recommencer</button>
         <button class="${btnGhost}" id="goHome">${ic('home', 'w-4 h-4')} Accueil</button>
       </div>
     </div>
 
-    <!-- Two column: text + corrections -->
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-5 items-start">
-
-      <!-- Text (sticky, narrow) -->
       <div class="lg:col-span-2 lg:sticky lg:top-20 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5 max-h-[calc(100vh-120px)] overflow-y-auto custom-scroll">
         <div class="flex items-center gap-2 mb-1">
           ${ic('book-open', 'w-3.5 h-3.5 text-gray-400')}
@@ -548,11 +540,9 @@ function renderCorrection() {
         ${exam.footnotes ? `<div class="mt-4 pt-4 border-t border-dashed border-gray-200 dark:border-gray-800 text-xs text-gray-400 leading-relaxed">${exam.footnotes}</div>` : ''}
       </div>
 
-      <!-- Corrections -->
       <div class="lg:col-span-3 space-y-4">
-
-        <!-- Score summary -->
-        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 text-center" id="scoreCard">
+        <!-- Score -->
+        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 text-center">
           <div class="relative flex justify-center w-32 h-32 mx-auto mb-4">
             <svg class="w-32 h-32" viewBox="0 0 120 120">
               <circle cx="60" cy="60" r="54" fill="none" class="stroke-gray-100 dark:stroke-gray-800" stroke-width="7"/>
@@ -560,11 +550,12 @@ function renderCorrection() {
                 stroke-dasharray="${C}" stroke-dashoffset="${offset}" stroke-linecap="round" transform="rotate(-90 60 60)" class="score-stroke"/>
             </svg>
             <div class="absolute inset-0 flex flex-col items-center justify-center">
-              <span class="text-2xl font-bold tracking-tight" id="scoreNum" style="color:${ringColor}">${score}</span>
+              <span class="text-2xl font-bold tracking-tight" style="color:${ringColor}">${score}</span>
               <span class="text-xs text-gray-400">/ ${total} pts</span>
             </div>
           </div>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-left">
+          ${inputPts > 0 ? `<p class="text-xs text-gray-400 mb-3">+ ${inputPts} pts de questions ouvertes — copie pour correction IA</p>` : ''}
+          <div class="grid grid-cols-2 sm:grid-cols-${Object.keys(sections).length} gap-2 text-left">
             ${Object.entries(sections).map(([sec, d]) => {
               const m = sectionMeta[sec] || { label: sec, icon: 'help-circle' };
               return `<div class="p-2.5 rounded-lg border border-gray-100 dark:border-gray-800">
@@ -575,74 +566,53 @@ function renderCorrection() {
           </div>
         </div>
 
-        <!-- Each question correction -->
         ${exam.questions.map((q, i) => renderCorrectionItem(q, i)).join('')}
 
-        <!-- Production reminder -->
+        <!-- Copy CTA -->
         <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
-          <div class="flex items-center gap-1.5 mb-2">${ic('pen-line', 'w-3.5 h-3.5 text-gray-400')}<span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Production Écrite (${exam.production.points} pts)</span></div>
-          <p class="text-xs text-gray-500 leading-relaxed">La production écrite est notée par un correcteur. Vérifie les critères : respect de la consigne, cohérence, structure et qualité de la langue.</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0">${ic('sparkles', 'w-5 h-5 text-gray-400')}</div>
+            <div class="flex-1">
+              <p class="text-sm font-medium">Correction par IA</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Copie tes réponses et colle-les dans ChatGPT ou Claude pour une correction détaillée des questions ouvertes et de ta production écrite.</p>
+            </div>
+            <button class="${btnSecondary} flex-shrink-0" id="copyAll2">${ic('copy', 'w-4 h-4')} Copier</button>
+          </div>
         </div>
 
-        <!-- Bottom actions -->
         <div class="flex items-center justify-center gap-3 py-4">
-          <button class="${btnPrimary}" id="retryQuiz2">${ic('rotate-ccw', 'w-4 h-4')} Recommencer</button>
+          <button class="${btnSecondary}" id="retryQuiz2">${ic('rotate-ccw', 'w-4 h-4')} Recommencer</button>
           <button class="${btnGhost}" id="goHome2">${ic('home', 'w-4 h-4')} Accueil</button>
         </div>
       </div>
     </div>
   </div>`;
 
-  // Self-eval bindings
-  app.querySelectorAll('.se-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const qi = parseInt(btn.dataset.qi), pts = parseFloat(btn.dataset.se);
-      if (!state.selfEvals[state.examId]) state.selfEvals[state.examId] = {};
-      state.selfEvals[state.examId][qi] = pts;
-      saveState();
-      // Update button states for this question
-      btn.closest('.se-group').querySelectorAll('.se-btn').forEach(b => {
-        b.className = b.className.replace(/bg-green-600|bg-amber-600|bg-red-600|text-white|border-green-600|border-amber-600|border-red-600/g, '');
-        b.classList.add('border-gray-200', 'dark:border-gray-800');
-      });
-      btn.classList.remove('border-gray-200', 'dark:border-gray-800');
-      const val = parseFloat(btn.dataset.se), q = getExam(state.examId).questions[qi];
-      if (val === q.points) btn.classList.add('bg-green-600', 'text-white', 'border-green-600');
-      else if (val === 0) btn.classList.add('bg-red-600', 'text-white', 'border-red-600');
-      else btn.classList.add('bg-amber-600', 'text-white', 'border-amber-600');
-      // Update total score display
-      const { score: newScore } = calcScore(state.examId);
-      const scoreEl = $('#scoreNum');
-      if (scoreEl) scoreEl.textContent = newScore;
-      // Re-save best
-      const { total: t } = calcScore(state.examId);
-      if (!state.bestScores[state.examId] || newScore > state.bestScores[state.examId].score) {
-        state.bestScores[state.examId] = { score: newScore, total: t, date: new Date().toLocaleDateString('fr-FR') };
-        saveState();
-      }
+  // Copy handlers
+  const doCopy = (labelEl) => {
+    const text = generateCopyText();
+    navigator.clipboard.writeText(text).then(() => {
+      if (labelEl) { const prev = labelEl.textContent; labelEl.textContent = 'Copié !'; setTimeout(() => labelEl.textContent = prev, 2000); }
     });
-  });
+  };
+  $('#copyAll')?.addEventListener('click', () => doCopy($('#copyLabel')));
+  $('#copyAll2')?.addEventListener('click', () => doCopy($('#copyAll2')));
 
-  const retry = () => { delete state.answers[state.examId]; delete state.selfEvals[state.examId]; delete state.productions[state.examId]; saveState(); startQuiz(state.examId); };
-  const goH = () => renderHome();
+  const retry = () => { delete state.answers[state.examId]; delete state.productions[state.examId]; saveState(); startQuiz(state.examId); };
   $('#retryQuiz')?.addEventListener('click', retry);
   $('#retryQuiz2')?.addEventListener('click', retry);
-  $('#goHome')?.addEventListener('click', goH);
-  $('#goHome2')?.addEventListener('click', goH);
+  $('#goHome')?.addEventListener('click', renderHome);
+  $('#goHome2')?.addEventListener('click', renderHome);
   refreshIcons();
 }
 
 // ── Correction Item ───────────────────────────────
 function renderCorrectionItem(q, idx) {
-  const eid = state.examId, answer = (state.answers[eid] || {})[idx], selfEval = (state.selfEvals[eid] || {})[idx];
+  const eid = state.examId, answer = (state.answers[eid] || {})[idx];
   const sec = sectionMeta[q.section] || { label: q.section, icon: 'help-circle' };
   const ptLabel = q.points === 1 ? '1 pt' : q.points + ' pts';
 
-  // Determine score for this question
-  let qScore = null;
-  if (answer?.scored !== undefined) qScore = answer.scored;
-  if (q.type === 'input' && selfEval !== undefined) qScore = selfEval;
-
+  let qScore = answer?.scored !== undefined ? answer.scored : null;
   let scoreColor = 'text-gray-400';
   if (qScore !== null) {
     if (qScore === q.points) scoreColor = 'text-green-600 dark:text-green-400';
@@ -656,8 +626,12 @@ function renderCorrectionItem(q, idx) {
     case 'vf': body = corVF(q, answer); break;
     case 'table': body = corTable(q, answer); break;
     case 'short': body = corShort(q, answer); break;
-    case 'input': body = corInput(q, answer, selfEval, idx); break;
+    case 'input': body = corInput(q, answer); break;
   }
+
+  // For input type, show pts but no auto-score
+  const scoreDisplay = q.type === 'input' ? ptLabel : (qScore !== null ? Math.round(qScore * 100) / 100 + '/' + q.points : ptLabel);
+  const sColor = q.type === 'input' ? 'text-gray-400' : scoreColor;
 
   return `
     <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
@@ -665,8 +639,9 @@ function renderCorrectionItem(q, idx) {
         <div class="flex items-center gap-2">
           <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Q${idx + 1}</span>
           <span class="flex items-center gap-1 px-2 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 text-[10px] text-gray-500 dark:text-gray-400">${ic(sec.icon, 'w-3 h-3')} ${sec.label}</span>
+          ${q.type === 'input' ? `<span class="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950 text-[10px] text-amber-600 dark:text-amber-400 font-medium">Correction IA</span>` : ''}
         </div>
-        <span class="text-xs font-semibold ${scoreColor}">${qScore !== null ? Math.round(qScore * 100) / 100 + '/' + q.points : ptLabel}</span>
+        <span class="text-xs font-semibold ${sColor}">${scoreDisplay}</span>
       </div>
       <p class="text-sm font-medium leading-relaxed mb-3">${q.text}</p>
       ${body}
@@ -777,8 +752,8 @@ function corShort(q, answer) {
   return html;
 }
 
-// ── Correction Input (self-eval) ──────────────────
-function corInput(q, answer, selfEval, idx) {
+// ── Correction Input ──────────────────────────────
+function corInput(q, answer) {
   const val = answer?.value || '';
   const noAnswer = !val;
 
@@ -797,17 +772,71 @@ function corInput(q, answer, selfEval, idx) {
     <p class="text-sm text-amber-800 dark:text-amber-200 leading-relaxed">${q.sampleAnswer}</p>
   </div>`;
 
-  // Self-eval
-  html += `<div class="se-group mt-2 p-3 rounded-lg border border-dashed border-gray-200 dark:border-gray-800">
-    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Auto-évaluation :</p>
-    <div class="flex gap-2">
-      <button class="se-btn flex-1 py-2 px-3 text-xs font-medium rounded-lg border transition-colors ${selfEval === q.points ? 'bg-green-600 text-white border-green-600' : 'border-gray-200 dark:border-gray-800 hover:border-green-400 hover:text-green-600'}" data-qi="${idx}" data-se="${q.points}">Complète (${q.points} pt${q.points > 1 ? 's' : ''})</button>
-      <button class="se-btn flex-1 py-2 px-3 text-xs font-medium rounded-lg border transition-colors ${selfEval === q.points / 2 ? 'bg-amber-600 text-white border-amber-600' : 'border-gray-200 dark:border-gray-800 hover:border-amber-400 hover:text-amber-600'}" data-qi="${idx}" data-se="${q.points / 2}">Partielle (${q.points / 2} pt)</button>
-      <button class="se-btn flex-1 py-2 px-3 text-xs font-medium rounded-lg border transition-colors ${selfEval === 0 ? 'bg-red-600 text-white border-red-600' : 'border-gray-200 dark:border-gray-800 hover:border-red-400 hover:text-red-600'}" data-qi="${idx}" data-se="0">Manquée (0 pt)</button>
-    </div>
-  </div>`;
-
   return html;
+}
+
+// ═══════════════════════════════════════════════════
+//  COPY TEXT FOR AI CORRECTION
+// ═══════════════════════════════════════════════════
+function generateCopyText() {
+  const exam = getExam(state.examId);
+  const answers = state.answers[state.examId] || {};
+  const prod = state.productions[state.examId] || '';
+
+  let t = '';
+  t += `EXAMEN REGIONAL DE FRANCAIS — ${exam.year} — ${exam.region}\n`;
+  t += `Oeuvre : ${exam.work.title} — ${exam.work.author} (${exam.work.year})\n`;
+  t += `Genre : ${exam.work.genre}\n\n`;
+
+  t += `=== TEXTE ===\n${exam.texte}\n`;
+  if (exam.footnotes) t += `\n[Notes] ${exam.footnotes}\n`;
+  t += `\n=== MES REPONSES ===\n\n`;
+
+  exam.questions.forEach((q, i) => {
+    const sec = sectionMeta[q.section]?.label || q.section;
+    t += `Q${i + 1} (${sec} — ${q.points}pt${q.points > 1 ? 's' : ''}) : ${q.text}\n`;
+
+    const a = answers[i];
+    switch (q.type) {
+      case 'qcm':
+        q.options.forEach((opt, j) => t += `  ${j === a?.value ? '>>>' : '   '} ${opt}\n`);
+        break;
+      case 'vf':
+        q.statements.forEach((stmt, j) => {
+          const choice = a?.value?.[j]?.choice;
+          t += `  ${j + 1}. "${stmt.text}" -> ${choice === undefined ? '(non repondu)' : choice ? 'Vrai' : 'Faux'}\n`;
+          if (a?.value?.[j]?.justif) t += `     Justification : ${a.value[j].justif}\n`;
+        });
+        break;
+      case 'table':
+        q.fields.forEach((f, j) => {
+          t += `  ${f.label} : ${a?.value?.[j] || '(non repondu)'}\n`;
+        });
+        break;
+      case 'short':
+        t += `  -> ${a?.value || '(non repondu)'}\n`;
+        break;
+      case 'input':
+        t += `  -> ${a?.value || '(non repondu)'}\n`;
+        break;
+    }
+    t += '\n';
+  });
+
+  t += `=== PRODUCTION ECRITE (${exam.production.points} pts) ===\n`;
+  t += `Sujet : ${exam.production.sujet}\n\n`;
+  t += `Ma reponse :\n${prod || '(non redige)'}\n\n`;
+  t += `Criteres : ${exam.production.criteres.join(' ; ')}\n\n`;
+
+  t += `=== CONSIGNE ===\n`;
+  t += `Corrige toutes mes reponses une par une. Pour chaque question :\n`;
+  t += `- Dis si ma reponse est correcte, partiellement correcte, ou fausse\n`;
+  t += `- Donne la reponse correcte avec explication\n`;
+  t += `- Note chaque question sur le bareme indique\n`;
+  t += `Pour la production ecrite, evalue selon les criteres donnes et donne une note detaillee.\n`;
+  t += `Donne-moi un score total final sur 20.\n`;
+
+  return t;
 }
 
 // ═══════════════════════════════════════════════════
