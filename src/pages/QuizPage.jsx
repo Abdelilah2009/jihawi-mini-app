@@ -8,7 +8,7 @@ import { QCM, VF, TableQ, ShortQ, InputQ, SkipQ } from '../components/questions'
 import TextContent from '../components/TextContent'
 
 export default function QuizPage() {
-  const { examId, currentQ, setCurrentQ, answers, updateAnswer, goHome, goToProduction, subj } = useApp()
+  const { examId, currentQ, setCurrentQ, answers, updateAnswer, goHome, goToProduction, goToCorrection, subj } = useApp()
   const exam = useMemo(() => EXAMS.find(e => e.id === examId), [examId])
   if (!exam) return null
 
@@ -24,7 +24,7 @@ export default function QuizPage() {
 
   const handleChange = (val) => updateAnswer(examId, currentQ, val)
   const handlePrev = () => { if (currentQ > 0) setCurrentQ(currentQ - 1) }
-  const handleNext = () => { if (isLast) goToProduction(); else setCurrentQ(currentQ + 1) }
+  const handleNext = () => { if (isLast) { exam.production ? goToProduction() : goToCorrection() } else setCurrentQ(currentQ + 1) }
 
   const ptLabel = q.points === 1 ? '1 pt' : q.points + ' pts'
   const PrevIcon = isRTL ? ChevronRight : ChevronLeft
@@ -89,7 +89,7 @@ export default function QuizPage() {
           {/* Nav */}
           <div className="flex items-center justify-between gap-3 mt-6 pt-5 border-t border-gray-100 dark:border-gray-800">
             <button className={BTN_GHOST} onClick={handlePrev} disabled={currentQ === 0}><PrevIcon className="w-4 h-4" /> {ui.prevLabel}</button>
-            <button className={BTN_PRIMARY} onClick={handleNext}>{isLast ? ui.productionLabel : ui.nextLabel} <NextIcon className="w-4 h-4" /></button>
+            <button className={BTN_PRIMARY} onClick={handleNext}>{isLast ? (exam.production ? ui.productionLabel : ui.seeCorrection) : ui.nextLabel} <NextIcon className="w-4 h-4" /></button>
           </div>
         </div>
       </div>
