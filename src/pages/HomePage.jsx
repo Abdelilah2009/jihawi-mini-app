@@ -121,7 +121,7 @@ export default function HomePage() {
                 {e.work ? (
                   <p className="font-serif italic text-sm text-gray-500 dark:text-gray-400 mb-4">{e.work.title}</p>
                 ) : e.topic ? (
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{e.topic.geography}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{e.topic.text || e.topic.geography}</p>
                 ) : null}
                 <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
                   <span className="text-xs text-gray-400">{e.questions.length} {ui.questionsLabel}</span>

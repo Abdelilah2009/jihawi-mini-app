@@ -61,7 +61,7 @@ export default function CorrectionPage() {
           {exam.work ? (
             <p className={`${isRTL ? 'font-arabic' : 'font-serif italic'} text-sm text-gray-500 dark:text-gray-400`}>{exam.work.title} — {exam.work.author}</p>
           ) : exam.topic ? (
-            <p className="text-sm text-gray-500 dark:text-gray-400">{exam.topic.geography}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{exam.topic.text || exam.topic.geography}</p>
           ) : null}
         </div>
         <div className="flex items-center gap-2">
