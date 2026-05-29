@@ -1,3 +1,5 @@
+import { SUBJECTS } from './subjects'
+
 export function normalize(s) {
   return s
     .toLowerCase()
@@ -7,16 +9,29 @@ export function normalize(s) {
     .trim();
 }
 
-export function checkShort(userAns, expected, alts) {
-  const n = normalize(userAns);
+export function normalizeAr(s) {
+  if (!s) return '';
+  return s
+    .replace(/[\u064B-\u065F\u0670]/g, '')
+    .replace(/[أإآ]/g, 'ا')
+    .replace(/ة/g, 'ه')
+    .replace(/ى/g, 'ي')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+export function checkShort(userAns, expected, alts, lang) {
+  const norm = lang === 'ar' ? normalizeAr : normalize;
+  const n = norm(userAns);
   if (!n) return false;
   return [expected, ...(alts || [])].some(a => {
-    const na = normalize(a);
+    const na = norm(a);
     return n.includes(na) || na.includes(n);
   });
 }
 
 export function scoreAll(exam, answers) {
+  const lang = SUBJECTS[exam.subject]?.lang || 'fr';
   const scored = { ...answers };
   exam.questions.forEach((q, i) => {
     const a = scored[i];
@@ -36,15 +51,16 @@ export function scoreAll(exam, answers) {
       case 'table': {
         let c = 0;
         q.fields.forEach((f, j) => {
-          if (checkShort(a.value?.[j] || '', f.answer, [])) c++;
+          if (checkShort(a.value?.[j] || '', f.answer, [], lang)) c++;
         });
         a.scored = (c / q.fields.length) * q.points;
         break;
       }
       case 'short':
-        a.scored = checkShort(a.value || '', q.answer, q.alternatives) ? q.points : 0;
+        a.scored = checkShort(a.value || '', q.answer, q.alternatives, lang) ? q.points : 0;
         break;
       case 'input':
+      case 'skip':
         break;
     }
   });
@@ -54,7 +70,7 @@ export function scoreAll(exam, answers) {
 export function calcScore(exam, answers) {
   let score = 0, total = 0, inputPts = 0;
   exam.questions.forEach((q, i) => {
-    if (q.type === 'input') { inputPts += q.points; return; }
+    if (q.type === 'input' || q.type === 'skip') { inputPts += q.points; return; }
     total += q.points;
     if (answers?.[i]?.scored !== undefined) score += answers[i].scored;
   });

@@ -3,22 +3,25 @@ import { Copy, RotateCcw, Home, BookOpen, PenLine, Sparkles } from 'lucide-react
 import * as icons from 'lucide-react'
 import { EXAMS } from '../data/exams'
 import { useApp } from '../App'
-import { sectionMeta, BTN_PRIMARY, BTN_SECONDARY, BTN_GHOST } from '../lib/constants'
+import { BTN_PRIMARY, BTN_SECONDARY, BTN_GHOST } from '../lib/constants'
 import { calcScore } from '../lib/scoring'
 import { generateCopyText } from '../lib/copyText'
-import { CorrQCM, CorrVF, CorrTable, CorrShort, CorrInput } from '../components/corrections'
+import { CorrQCM, CorrVF, CorrTable, CorrShort, CorrInput, CorrSkip } from '../components/corrections'
+import TextContent from '../components/TextContent'
 
 export default function CorrectionPage() {
-  const { examId, answers, productions, bestScores, updateBestScore, retryExam, goHome } = useApp()
+  const { examId, answers, productions, bestScores, updateBestScore, retryExam, goHome, subj } = useApp()
   const exam = useMemo(() => EXAMS.find(e => e.id === examId), [examId])
-  const [copyLabel, setCopyLabel] = useState('Copier pour IA')
+  const [copyLabel, setCopyLabel] = useState(null)
 
   if (!exam) return null
+
+  const ui = subj.ui
+  const isRTL = subj.dir === 'rtl'
   const examAnswers = answers[examId] || {}
   const { score, total, inputPts } = calcScore(exam, examAnswers)
   const pct = total > 0 ? Math.round((score / total) * 100) : 0
 
-  // Save best score on render
   useMemo(() => {
     if (!bestScores[examId] || score > bestScores[examId].score) {
       updateBestScore(examId, { score, total, date: new Date().toLocaleDateString('fr-FR') })
@@ -31,7 +34,6 @@ export default function CorrectionPage() {
   else if (pct >= 40) ringColor = '#d97706'
   else ringColor = '#dc2626'
 
-  // Section breakdown (exclude input)
   const sections = {}
   exam.questions.forEach((q, i) => {
     if (q.type === 'input') return
@@ -44,33 +46,39 @@ export default function CorrectionPage() {
   const offset = C * (1 - pct / 100)
 
   const doCopy = () => {
-    const text = generateCopyText(exam, examAnswers, productions[examId] || '')
+    const text = generateCopyText(exam, examAnswers, productions[examId] || '', subj)
     navigator.clipboard.writeText(text).then(() => {
-      setCopyLabel('Copié !')
-      setTimeout(() => setCopyLabel('Copier pour IA'), 2000)
+      setCopyLabel(ui.copiedLabel)
+      setTimeout(() => setCopyLabel(null), 2000)
     })
   }
 
   return (
-    <div className="fade-in space-y-5">
+    <div className={`fade-in space-y-5 ${isRTL ? 'font-arabic' : ''}`} dir={subj.dir}>
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h2 className="text-lg font-semibold tracking-tight">Correction — {exam.year} {exam.region}</h2>
-          <p className="font-serif italic text-sm text-gray-500 dark:text-gray-400">{exam.work.title} — {exam.work.author}</p>
+          <h2 className="text-lg font-semibold tracking-tight">{ui.correctionLabel} — {exam.year} {exam.region}</h2>
+          {exam.work ? (
+            <p className={`${isRTL ? 'font-arabic' : 'font-serif italic'} text-sm text-gray-500 dark:text-gray-400`}>{exam.work.title} — {exam.work.author}</p>
+          ) : exam.topic ? (
+            <p className="text-sm text-gray-500 dark:text-gray-400">{exam.topic.geography}</p>
+          ) : null}
         </div>
         <div className="flex items-center gap-2">
-          <button className={BTN_PRIMARY} onClick={doCopy}><Copy className="w-4 h-4" /> <span>{copyLabel}</span></button>
-          <button className={BTN_SECONDARY} onClick={retryExam}><RotateCcw className="w-4 h-4" /> Recommencer</button>
-          <button className={BTN_GHOST} onClick={goHome}><Home className="w-4 h-4" /> Accueil</button>
+          <button className={BTN_PRIMARY} onClick={doCopy}><Copy className="w-4 h-4" /> <span>{copyLabel || ui.copyLabel}</span></button>
+          <button className={BTN_SECONDARY} onClick={retryExam}><RotateCcw className="w-4 h-4" /> {ui.retryLabel}</button>
+          <button className={BTN_GHOST} onClick={goHome}><Home className="w-4 h-4" /> {ui.homeLabel}</button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 items-start">
         {/* Text */}
         <div className="lg:col-span-2 lg:sticky lg:top-20 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5 max-h-[calc(100vh-120px)] overflow-y-auto custom-scroll">
-          <div className="flex items-center gap-2 mb-1"><BookOpen className="w-3.5 h-3.5 text-gray-400" /><span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Texte</span></div>
-          <p className="font-serif italic text-xs text-gray-500 dark:text-gray-400 mb-4 pb-4 border-b border-gray-100 dark:border-gray-800">{exam.work.title} — {exam.work.author} ({exam.work.year})</p>
-          <div className="text-content font-serif text-sm leading-[1.75] text-gray-800 dark:text-gray-200">{exam.texte}</div>
+          <div className="flex items-center gap-2 mb-1"><BookOpen className="w-3.5 h-3.5 text-gray-400" /><span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{ui.textLabel}</span></div>
+          {exam.work && (
+            <p className={`${isRTL ? 'font-arabic' : 'font-serif italic'} text-xs text-gray-500 dark:text-gray-400 mb-4 pb-4 border-b border-gray-100 dark:border-gray-800`}>{exam.work.title} — {exam.work.author} ({exam.work.year})</p>
+          )}
+          <TextContent text={exam.texte} className={`${isRTL ? 'font-arabic' : 'font-serif'} text-sm`} />
           {exam.footnotes && <div className="mt-4 pt-4 border-t border-dashed border-gray-200 dark:border-gray-800 text-xs text-gray-400 leading-relaxed">{exam.footnotes}</div>}
         </div>
 
@@ -89,10 +97,10 @@ export default function CorrectionPage() {
                 <span className="text-xs text-gray-400">/ {total} pts</span>
               </div>
             </div>
-            {inputPts > 0 && <p className="text-xs text-gray-400 mb-3">+ {inputPts} pts de questions ouvertes — copie pour correction IA</p>}
-            <div className={`grid grid-cols-2 sm:grid-cols-${Math.min(Object.keys(sections).length, 4)} gap-2 text-left`}>
+            {inputPts > 0 && <p className="text-xs text-gray-400 mb-3">+ {inputPts} pts — {ui.aiCorrectionTag}</p>}
+            <div className={`grid grid-cols-2 sm:grid-cols-${Math.min(Object.keys(sections).length, 4)} gap-2 text-start`} dir={subj.dir}>
               {Object.entries(sections).map(([sec, d]) => {
-                const m = sectionMeta[sec] || { label: sec, icon: 'HelpCircle' }
+                const m = subj.sections[sec] || { label: sec, icon: 'HelpCircle' }
                 const SIcon = icons[m.icon] || icons.HelpCircle
                 return (
                   <div key={sec} className="p-2.5 rounded-lg border border-gray-100 dark:border-gray-800">
@@ -105,23 +113,23 @@ export default function CorrectionPage() {
           </div>
 
           {/* Questions */}
-          {exam.questions.map((q, i) => <CorrectionItem key={i} question={q} index={i} answer={examAnswers[i]} />)}
+          {exam.questions.map((q, i) => <CorrectionItem key={i} question={q} index={i} answer={examAnswers[i]} subj={subj} />)}
 
           {/* Copy CTA */}
           <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0"><Sparkles className="w-5 h-5 text-gray-400" /></div>
               <div className="flex-1">
-                <p className="text-sm font-medium">Correction par IA</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Copie tes réponses et colle-les dans ChatGPT ou Claude pour une correction détaillée des questions ouvertes et de ta production écrite.</p>
+                <p className="text-sm font-medium">{ui.aiCopyTitle}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{ui.aiCopyDesc}</p>
               </div>
-              <button className={BTN_SECONDARY + ' flex-shrink-0'} onClick={doCopy}><Copy className="w-4 h-4" /> Copier</button>
+              <button className={BTN_SECONDARY + ' flex-shrink-0'} onClick={doCopy}><Copy className="w-4 h-4" /> {copyLabel || ui.copyLabel}</button>
             </div>
           </div>
 
           <div className="flex items-center justify-center gap-3 py-4">
-            <button className={BTN_SECONDARY} onClick={retryExam}><RotateCcw className="w-4 h-4" /> Recommencer</button>
-            <button className={BTN_GHOST} onClick={goHome}><Home className="w-4 h-4" /> Accueil</button>
+            <button className={BTN_SECONDARY} onClick={retryExam}><RotateCcw className="w-4 h-4" /> {ui.retryLabel}</button>
+            <button className={BTN_GHOST} onClick={goHome}><Home className="w-4 h-4" /> {ui.homeLabel}</button>
           </div>
         </div>
       </div>
@@ -129,9 +137,9 @@ export default function CorrectionPage() {
   )
 }
 
-// ── Correction Item ───────────────────────────────
-function CorrectionItem({ question: q, index: idx, answer }) {
-  const sec = sectionMeta[q.section] || { label: q.section, icon: 'HelpCircle' }
+function CorrectionItem({ question: q, index: idx, answer, subj }) {
+  const ui = subj.ui
+  const sec = subj.sections[q.section] || { label: q.section, icon: 'HelpCircle' }
   const SIcon = icons[sec.icon] || icons.HelpCircle
   const ptLabel = q.points === 1 ? '1 pt' : q.points + ' pts'
 
@@ -152,16 +160,17 @@ function CorrectionItem({ question: q, index: idx, answer }) {
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Q{idx + 1}</span>
           <span className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 text-[10px] text-gray-500 dark:text-gray-400"><SIcon className="w-3 h-3" /> {sec.label}</span>
-          {q.type === 'input' && <span className="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950 text-[10px] text-amber-600 dark:text-amber-400 font-medium">Correction IA</span>}
+          {q.type === 'input' && <span className="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950 text-[10px] text-amber-600 dark:text-amber-400 font-medium">{ui.aiCorrectionTag}</span>}
         </div>
         <span className={`text-xs font-semibold ${sColor}`}>{scoreDisplay}</span>
       </div>
       <p className="text-sm font-medium leading-relaxed mb-3">{q.text}</p>
-      {q.type === 'qcm' && <CorrQCM question={q} answer={answer} />}
-      {q.type === 'vf' && <CorrVF question={q} answer={answer} />}
-      {q.type === 'table' && <CorrTable question={q} answer={answer} />}
-      {q.type === 'short' && <CorrShort question={q} answer={answer} />}
-      {q.type === 'input' && <CorrInput question={q} answer={answer} />}
+      {q.type === 'qcm' && <CorrQCM question={q} answer={answer} labels={ui} />}
+      {q.type === 'vf' && <CorrVF question={q} answer={answer} labels={ui} />}
+      {q.type === 'table' && <CorrTable question={q} answer={answer} labels={ui} />}
+      {q.type === 'short' && <CorrShort question={q} answer={answer} labels={ui} />}
+      {q.type === 'input' && <CorrInput question={q} answer={answer} labels={ui} />}
+      {q.type === 'skip' && <CorrSkip question={q} labels={ui} />}
     </div>
   )
 }

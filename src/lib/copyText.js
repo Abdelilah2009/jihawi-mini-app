@@ -1,34 +1,32 @@
-import { sectionMeta } from './constants';
-
-export function generateCopyText(exam, answers, production) {
+export function generateCopyText(exam, answers, production, subj) {
+  const ui = subj.ui;
   const lines = [];
 
-  // --- Header ---
-  lines.push('=== EXAMEN RÉGIONAL ===');
-  if (exam.year) lines.push(`Année : ${exam.year}`);
-  if (exam.region) lines.push(`Région : ${exam.region}`);
+  lines.push(`=== ${ui.examLabel} ===`);
+  if (exam.year) lines.push(`${subj.lang === 'ar' ? 'السنة' : 'Année'} : ${exam.year}`);
+  if (exam.region) lines.push(`${subj.lang === 'ar' ? 'الجهة' : 'Région'} : ${exam.region}`);
   if (exam.work) {
-    lines.push(`Œuvre : ${exam.work.title}`);
-    lines.push(`Auteur : ${exam.work.author}`);
-    lines.push(`Genre : ${exam.work.genre}`);
+    lines.push(`${subj.lang === 'ar' ? 'المؤلَّف' : 'Œuvre'} : ${exam.work.title}`);
+    lines.push(`${subj.lang === 'ar' ? 'الكاتب' : 'Auteur'} : ${exam.work.author}`);
+    lines.push(`${subj.lang === 'ar' ? 'النوع' : 'Genre'} : ${exam.work.genre}`);
+  }
+  if (exam.topic) {
+    if (exam.topic.geography) lines.push(`${subj.lang === 'ar' ? 'الجغرافيا' : 'Géographie'} : ${exam.topic.geography}`);
+    if (exam.topic.history) lines.push(`${subj.lang === 'ar' ? 'التاريخ' : 'Histoire'} : ${exam.topic.history}`);
   }
   lines.push('');
 
-  // --- Texte de support ---
   if (exam.texte) {
-    lines.push('--- TEXTE ---');
+    lines.push(`--- ${ui.textLabel} ---`);
     lines.push(exam.texte);
     lines.push('');
   }
 
-  // --- Questions grouped by section ---
   let currentSection = null;
-
   exam.questions.forEach((q, i) => {
-    // Section header
     if (q.section && q.section !== currentSection) {
       currentSection = q.section;
-      const meta = sectionMeta[currentSection];
+      const meta = subj.sections[currentSection];
       const label = meta ? meta.label : currentSection;
       lines.push(`\n=== ${label.toUpperCase()} ===`);
     }
@@ -47,55 +45,47 @@ export function generateCopyText(exam, answers, production) {
         }
         break;
       }
-
       case 'vf': {
         if (q.statements) {
           q.statements.forEach((st, j) => {
             const choice = answer?.value?.[j]?.choice;
-            const display = choice === true ? 'Vrai' : choice === false ? 'Faux' : '(non répondu)';
+            const display = choice === true ? ui.trueLabel : choice === false ? ui.falseLabel : `(${ui.notAnsweredLabel})`;
             lines.push(`  - "${st.text}" → ${display}`);
           });
         }
         break;
       }
-
       case 'table': {
         if (q.fields) {
           q.fields.forEach((f, j) => {
-            const val = answer?.value?.[j] || '(vide)';
+            const val = answer?.value?.[j] || `(${ui.notAnsweredLabel})`;
             lines.push(`  - ${f.label} : ${val}`);
           });
         }
         break;
       }
-
       case 'short': {
-        const val = answer?.value || '(non répondu)';
-        lines.push(`  Réponse : ${val}`);
+        const val = answer?.value || `(${ui.notAnsweredLabel})`;
+        lines.push(`  ${ui.yourAnswerLabel} ${val}`);
         break;
       }
-
       case 'input': {
-        const val = answer?.value || '(non répondu)';
-        lines.push(`  Réponse : ${val}`);
+        const val = answer?.value || `(${ui.notAnsweredLabel})`;
+        lines.push(`  ${ui.yourAnswerLabel} ${val}`);
         break;
       }
     }
   });
 
-  // --- Production écrite ---
   if (exam.production) {
-    lines.push('\n\n=== PRODUCTION ÉCRITE ===');
-    lines.push(`Sujet : ${exam.production.sujet}`);
+    lines.push(`\n\n=== ${ui.productionLabel.toUpperCase()} ===`);
+    lines.push(exam.production.sujet);
     lines.push('');
-    lines.push(production || '(non répondu)');
+    lines.push(production || `(${ui.notAnsweredLabel})`);
   }
 
-  // --- Instruction pour l'IA ---
   lines.push('\n\n=== INSTRUCTION ===');
-  lines.push(
-    'Corrige toutes les réponses ci-dessus. Pour chaque question, indique si la réponse est correcte ou incorrecte, donne la bonne réponse le cas échéant, et attribue une note. À la fin, donne une note globale sur 20.'
-  );
+  lines.push(ui.aiInstruction);
 
   return lines.join('\n');
 }

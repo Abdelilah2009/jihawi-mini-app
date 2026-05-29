@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useCallback } from 'react'
 import { Moon, Sun } from 'lucide-react'
 import { EXAMS } from './data/exams'
+import { SUBJECTS, getSubject } from './lib/subjects'
 import useTheme from './hooks/useTheme'
 import useLocalStorage from './hooks/useLocalStorage'
 import { scoreAll, isExamScored } from './lib/scoring'
@@ -18,10 +19,14 @@ export default function App() {
   const [view, setView] = useState('home')
   const [examId, setExamId] = useState(null)
   const [currentQ, setCurrentQ] = useState(0)
+  const [currentSubject, setCurrentSubject] = useState('francais')
 
   const answers = saved.answers || {}
   const productions = saved.productions || {}
   const bestScores = saved.bestScores || {}
+
+  const currentExam = examId ? EXAMS.find(e => e.id === examId) : null
+  const subj = currentExam ? getSubject(currentExam) : SUBJECTS[currentSubject]
 
   const updateAnswer = useCallback((eid, qi, val) => {
     setSaved(p => ({ ...p, answers: { ...p.answers, [eid]: { ...(p.answers?.[eid] || {}), [qi]: val } } }))
@@ -46,6 +51,8 @@ export default function App() {
   }, [])
 
   const openExam = useCallback((eid) => {
+    const exam = EXAMS.find(e => e.id === eid)
+    if (exam) setCurrentSubject(exam.subject || 'francais')
     setExamId(eid)
     if (isExamScored(answers[eid])) { setView('correction') }
     else { startQuiz(eid) }
@@ -75,6 +82,7 @@ export default function App() {
     answers, productions, bestScores,
     updateAnswer, updateProduction, updateBestScore, setExamAnswers,
     view, examId, currentQ, setCurrentQ,
+    currentSubject, setCurrentSubject, subj,
     goHome, startQuiz, openExam, goToProduction, goToCorrection, retryExam,
   }
 
@@ -86,7 +94,7 @@ export default function App() {
             <div className="w-8 h-8 bg-gray-900 dark:bg-white rounded-lg flex items-center justify-center text-white dark:text-gray-900 text-xs font-bold tracking-tight">JQ</div>
             <div className="text-left">
               <h1 className="text-sm font-semibold leading-tight tracking-tight">Jihawi Quiz</h1>
-              <p className="text-[11px] text-gray-500 leading-tight">Examen Régional · Français · 1ère Bac</p>
+              <p className="text-[11px] text-gray-500 leading-tight">{subj.ui.subtitle}</p>
             </div>
           </button>
           <button onClick={toggleTheme} className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors" aria-label="Thème">

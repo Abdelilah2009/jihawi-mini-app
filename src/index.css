@@ -5,6 +5,7 @@
 @theme {
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-serif: 'Lora', Georgia, serif;
+  --font-arabic: 'IBM Plex Sans Arabic', system-ui, sans-serif;
 }
 
 @keyframes fadeIn {
@@ -20,3 +21,4 @@
 ::selection { background: rgba(0, 0, 0, 0.07); }
 .dark ::selection { background: rgba(255, 255, 255, 0.12); }
 .score-stroke { transition: stroke-dashoffset 0.8s ease-out; }
+[dir="rtl"] input, [dir="rtl"] textarea { text-align: right; }

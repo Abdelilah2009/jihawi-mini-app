@@ -1,10 +1,3 @@
-export const sectionMeta = {
-  contextualisation: { label: 'Contextualisation', icon: 'ClipboardList' },
-  comprehension:     { label: 'Compréhension',     icon: 'Search' },
-  langue:            { label: 'Langue',             icon: 'PenTool' },
-  reaction:          { label: 'Réaction',           icon: 'MessageCircle' },
-};
-
 export const BTN_PRIMARY =
   'inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors disabled:opacity-40 disabled:cursor-not-allowed';
 
