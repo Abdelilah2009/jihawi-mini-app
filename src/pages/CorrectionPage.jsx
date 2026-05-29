@@ -55,7 +55,7 @@ export default function CorrectionPage() {
 
   return (
     <div className={`fade-in space-y-5 ${isRTL ? 'font-arabic' : ''}`} dir={subj.dir}>
-      <div className="flex items-center justify-between gap-4 flex-wrap">
+      <div className="space-y-3">
         <div>
           <h2 className="text-lg font-semibold tracking-tight">{ui.correctionLabel} — {exam.year} {exam.region}</h2>
           {exam.work ? (
@@ -64,16 +64,16 @@ export default function CorrectionPage() {
             <p className="text-sm text-gray-500 dark:text-gray-400">{exam.topic.text || exam.topic.geography}</p>
           ) : null}
         </div>
-        <div className="flex items-center gap-2">
-          <button className={BTN_PRIMARY} onClick={doCopy}><Copy className="w-4 h-4" /> <span>{copyLabel || ui.copyLabel}</span></button>
-          <button className={BTN_SECONDARY} onClick={retryExam}><RotateCcw className="w-4 h-4" /> {ui.retryLabel}</button>
+        <div className="flex items-center gap-2 flex-wrap">
+          <button className={BTN_PRIMARY} onClick={doCopy}><Copy className="w-4 h-4" /> <span className="hidden sm:inline">{copyLabel || ui.copyLabel}</span></button>
+          <button className={BTN_SECONDARY} onClick={retryExam}><RotateCcw className="w-4 h-4" /> <span className="hidden sm:inline">{ui.retryLabel}</span></button>
           <button className={BTN_GHOST} onClick={goHome}><Home className="w-4 h-4" /> {ui.homeLabel}</button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 items-start">
         {/* Text */}
-        <div className="lg:col-span-2 lg:sticky lg:top-20 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5 max-h-[calc(100vh-120px)] overflow-y-auto custom-scroll">
+        <div className="lg:col-span-2 lg:sticky lg:top-20 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5 max-h-[50vh] lg:max-h-[calc(100vh-120px)] overflow-y-auto custom-scroll">
           <div className="flex items-center gap-2 mb-1"><BookOpen className="w-3.5 h-3.5 text-gray-400" /><span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{ui.textLabel}</span></div>
           {exam.work && (
             <p className={`${isRTL ? 'font-arabic' : 'font-serif italic'} text-xs text-gray-500 dark:text-gray-400 mb-4 pb-4 border-b border-gray-100 dark:border-gray-800`}>{exam.work.title} — {exam.work.author} ({exam.work.year})</p>
@@ -98,7 +98,7 @@ export default function CorrectionPage() {
               </div>
             </div>
             {inputPts > 0 && <p className="text-xs text-gray-400 mb-3">+ {inputPts} pts — {ui.aiCorrectionTag}</p>}
-            <div className={`grid grid-cols-2 sm:grid-cols-${Math.min(Object.keys(sections).length, 4)} gap-2 text-start`} dir={subj.dir}>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-start" dir={subj.dir}>
               {Object.entries(sections).map(([sec, d]) => {
                 const m = subj.sections[sec] || { label: sec, icon: 'HelpCircle' }
                 const SIcon = icons[m.icon] || icons.HelpCircle
@@ -117,13 +117,15 @@ export default function CorrectionPage() {
 
           {/* Copy CTA */}
           <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0"><Sparkles className="w-5 h-5 text-gray-400" /></div>
-              <div className="flex-1">
-                <p className="text-sm font-medium">{ui.aiCopyTitle}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">{ui.aiCopyDesc}</p>
+            <div className="flex items-start sm:items-center gap-3 flex-col sm:flex-row">
+              <div className="flex items-center gap-3 flex-1">
+                <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0"><Sparkles className="w-5 h-5 text-gray-400" /></div>
+                <div>
+                  <p className="text-sm font-medium">{ui.aiCopyTitle}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{ui.aiCopyDesc}</p>
+                </div>
               </div>
-              <button className={BTN_SECONDARY + ' flex-shrink-0'} onClick={doCopy}><Copy className="w-4 h-4" /> {copyLabel || ui.copyLabel}</button>
+              <button className={BTN_SECONDARY + ' flex-shrink-0 w-full sm:w-auto justify-center'} onClick={doCopy}><Copy className="w-4 h-4" /> {copyLabel || ui.copyLabel}</button>
             </div>
           </div>
 

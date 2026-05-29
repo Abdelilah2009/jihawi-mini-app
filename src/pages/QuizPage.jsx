@@ -47,12 +47,12 @@ export default function QuizPage() {
 
       {/* Progress */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text-gray-900 dark:text-gray-100">{ui.questionLabel} {currentQ + 1} / {total}</span>
-            <span className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 text-xs text-gray-500 dark:text-gray-400"><SectionIcon className="w-3 h-3" /> {sec.label}</span>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="text-xs font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap">{ui.questionLabel} {currentQ + 1} / {total}</span>
+            <span className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 text-xs text-gray-500 dark:text-gray-400"><SectionIcon className="w-3 h-3" /> {sec.label}</span>
           </div>
-          <span className="text-xs text-gray-400">{Math.round(pct)}%</span>
+          <span className="text-xs text-gray-400 whitespace-nowrap">{Math.round(pct)}%</span>
         </div>
         <div className="h-1 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
           <div className="h-full bg-gray-900 dark:bg-white rounded-full transition-all duration-300" style={{ width: `${pct}%` }} />
@@ -62,7 +62,7 @@ export default function QuizPage() {
       {/* Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
         {/* Text */}
-        <div className="lg:sticky lg:top-20 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5 sm:p-6 max-h-[calc(100vh-120px)] overflow-y-auto custom-scroll">
+        <div className="lg:sticky lg:top-20 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5 sm:p-6 max-h-[50vh] lg:max-h-[calc(100vh-120px)] overflow-y-auto custom-scroll">
           <div className="flex items-center gap-2 mb-1"><BookOpen className="w-3.5 h-3.5 text-gray-400" /><span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{ui.textLabel}</span></div>
           {exam.work && (
             <p className={`${isRTL ? 'font-arabic' : 'font-serif italic'} text-xs text-gray-500 dark:text-gray-400 mb-4 pb-4 border-b border-gray-100 dark:border-gray-800`}>{exam.work.title} — {exam.work.author} ({exam.work.year})</p>

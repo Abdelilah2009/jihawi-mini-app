@@ -68,8 +68,8 @@ function TableBlock({ lines }) {
   const body = rows.slice(1)
 
   return (
-    <div className="overflow-x-auto my-3">
-      <table className="w-full text-sm border-collapse">
+    <div className="overflow-x-auto my-3 -mx-2 px-2">
+      <table className="w-full min-w-[320px] text-sm border-collapse">
         <thead>
           <tr>
             {header.map((cell, i) => (
