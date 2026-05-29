@@ -308,7 +308,8 @@ export const EXAMS_ISL = [
     },
     {
       type: "vf",
-      text: "صرّح بموقفك الموافق أو المخالف لما يلي:",
+      text: "صرّح بموقفك الموافق أو المخالف لما يلي، معللا جوابك:",
+      withJustification: true,
       points: 1.5,
       section: "fiqh",
       statements: [

@@ -45,9 +45,9 @@ export function VF({ question, answer, onChange, labels }) {
                 </button>
               ))}
             </div>
-            {stmt.justification && (
+            {question.withJustification && (
               <textarea className={`${INPUT_CLS} text-xs !py-2 min-h-[36px] resize-y`}
-                placeholder={labels?.placeholder || 'Justification (optionnel)...'} value={ans.justif || ''}
+                placeholder={labels?.placeholder || 'Justification...'} value={ans.justif || ''}
                 onChange={e => update(i, 'justif', e.target.value)} />
             )}
           </div>

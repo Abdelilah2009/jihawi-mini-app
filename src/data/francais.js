@@ -197,6 +197,7 @@ Je n'aimais pas Zineb. Il m'arrivait même de souhaiter sa disparition. J'étais
     {
       type: "vf",
       text: "Dites si les affirmations sont vraies ou fausses. Justifiez chaque réponse.",
+      withJustification: true,
       points: 1,
       section: "comprehension",
       statements: [
@@ -868,6 +869,7 @@ Rahma lui avait offert un bracelet de perles bleues. Il l'accepta avec joie et l
     {
       type: "vf",
       text: "Dites si les affirmations suivantes sont vraies ou fausses. Justifiez.",
+      withJustification: true,
       points: 1,
       section: "comprehension",
       statements: [
@@ -987,6 +989,7 @@ Je perdais mes babouches tous les trois pas. Mes parents voyaient grand. Ni les 
     {
       type: "vf",
       text: "Dites si les affirmations suivantes sont vraies ou fausses. Justifiez chaque réponse par une phrase du texte.",
+      withJustification: true,
       points: 1,
       section: "comprehension",
       statements: [
