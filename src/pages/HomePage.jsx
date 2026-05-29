@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FileText, HelpCircle, BookOpen, CheckCircle } from 'lucide-react'
+import { FileText, HelpCircle, BookOpen, CheckCircle, Download } from 'lucide-react'
 import { EXAMS } from '../data/exams'
 import { SUBJECTS } from '../lib/subjects'
 import { useApp } from '../App'
@@ -124,7 +124,15 @@ export default function HomePage() {
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{e.topic.text || e.topic.geography}</p>
                 ) : null}
                 <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
-                  <span className="text-xs text-gray-400">{e.questions.length} {ui.questionsLabel}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-400">{e.questions.length} {ui.questionsLabel}</span>
+                    {e.pdf && (
+                      <a href={`/pdfs/${e.pdf}`} download onClick={ev => ev.stopPropagation()}
+                        className="w-6 h-6 flex items-center justify-center rounded-md text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" title="PDF">
+                        <Download className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
                   {best ? <span className="px-2 py-0.5 text-xs font-semibold rounded-md bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-400">{best.score}/{best.total}</span>
                     : prog > 0 ? <span className="px-2 py-0.5 text-xs font-semibold rounded-md bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-400">{prog}%</span> : null}
                 </div>

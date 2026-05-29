@@ -45,7 +45,7 @@ export const SUBJECTS = {
       worksLabel: 'Œuvres',
       criteriaLabel: 'Critères d\'évaluation',
       aiCopyTitle: 'Correction par IA',
-      aiCopyDesc: 'Copie tes réponses et colle-les dans ChatGPT ou Claude pour une correction détaillée des questions ouvertes et de ta production écrite.',
+      aiCopyDesc: 'Copie tes réponses et colle-les dans ChatGPT ou Claude ou Gemini pour une correction détaillée des questions ouvertes et de ta production écrite.',
       aiInstruction: 'Corrige toutes les réponses ci-dessus. Pour chaque question, indique si la réponse est correcte ou incorrecte, donne la bonne réponse le cas échéant, et attribue une note. À la fin, donne une note globale sur 20.',
     },
   },

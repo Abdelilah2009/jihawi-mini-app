@@ -9,6 +9,7 @@ export const EXAMS_HG = [
 // ──────────────────────────────────────────────────
 {
   id: "hg-marrakech-2017",
+  pdf: "hg-marrakech-2017.pdf",
   subject: "ijtima3iyat",
   year: 2017,
   region: "مراكش-آسفي",
@@ -121,6 +122,7 @@ export const EXAMS_HG = [
 // ──────────────────────────────────────────────────
 {
   id: "hg-marrakech-2020",
+  pdf: "hg-marrakech-2020.pdf",
   subject: "ijtima3iyat",
   year: 2020,
   region: "مراكش-آسفي",
@@ -224,6 +226,7 @@ export const EXAMS_HG = [
 // ──────────────────────────────────────────────────
 {
   id: "hg-marrakech-2021",
+  pdf: "hg-marrakech-2021.pdf",
   subject: "ijtima3iyat",
   year: 2021,
   region: "مراكش-آسفي",
@@ -311,6 +314,7 @@ export const EXAMS_HG = [
 // ──────────────────────────────────────────────────
 {
   id: "hg-marrakech-2022",
+  pdf: "hg-marrakech-2022.pdf",
   subject: "ijtima3iyat",
   year: 2022,
   region: "مراكش-آسفي",

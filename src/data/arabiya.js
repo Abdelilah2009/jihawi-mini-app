@@ -9,6 +9,7 @@ export const EXAMS_AR = [
 // ──────────────────────────────────────────────────
 {
   id: "ar-marrakech-2018",
+  pdf: "ar-marrakech-2018.pdf",
   subject: "arabiya",
   year: 2018,
   region: "مراكش-آسفي",
@@ -118,6 +119,7 @@ export const EXAMS_AR = [
 // ──────────────────────────────────────────────────
 {
   id: "ar-marrakech-2020",
+  pdf: "ar-marrakech-2020.pdf",
   subject: "arabiya",
   year: 2020,
   region: "مراكش-آسفي",
@@ -226,6 +228,7 @@ export const EXAMS_AR = [
 // ──────────────────────────────────────────────────
 {
   id: "ar-marrakech-2021",
+  pdf: "ar-marrakech-2021.pdf",
   subject: "arabiya",
   year: 2021,
   region: "مراكش-آسفي",
@@ -317,6 +320,7 @@ export const EXAMS_AR = [
 // ──────────────────────────────────────────────────
 {
   id: "ar-marrakech-2022",
+  pdf: "ar-marrakech-2022.pdf",
   subject: "arabiya",
   year: 2022,
   region: "مراكش-آسفي",
@@ -423,6 +427,7 @@ export const EXAMS_AR = [
 // ──────────────────────────────────────────────────
 {
   id: "ar-marrakech-2024",
+  pdf: "ar-marrakech-2024.pdf",
   subject: "arabiya",
   year: 2024,
   region: "مراكش-آسفي",

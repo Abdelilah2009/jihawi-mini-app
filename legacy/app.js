@@ -589,7 +589,7 @@ function renderCorrection() {
             <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0">${ic('sparkles', 'w-5 h-5 text-gray-400')}</div>
             <div class="flex-1">
               <p class="text-sm font-medium">Correction par IA</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">Copie tes réponses et colle-les dans ChatGPT ou Claude pour une correction détaillée des questions ouvertes et de ta production écrite.</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Copie tes réponses et colle-les dans ChatGPT ou Claude ou Gemini pour une correction détaillée des questions ouvertes et de ta production écrite.</p>
             </div>
             <button class="${btnSecondary} flex-shrink-0" id="copyAll2">${ic('copy', 'w-4 h-4')} Copier</button>
           </div>

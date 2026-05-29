@@ -9,6 +9,7 @@ export const EXAMS_ISL = [
 // ──────────────────────────────────────────────────
 {
   id: "isl-marrakech-2020",
+  pdf: "isl-marrakech-2020.pdf",
   subject: "islamiyat",
   year: 2020,
   region: "مراكش-آسفي",
@@ -146,6 +147,7 @@ export const EXAMS_ISL = [
 // ──────────────────────────────────────────────────
 {
   id: "isl-marrakech-2022",
+  pdf: "isl-marrakech-2022.pdf",
   subject: "islamiyat",
   year: 2022,
   region: "مراكش-آسفي",
@@ -270,6 +272,7 @@ export const EXAMS_ISL = [
 // ──────────────────────────────────────────────────
 {
   id: "isl-marrakech-2024",
+  pdf: "isl-marrakech-2024.pdf",
   subject: "islamiyat",
   year: 2024,
   region: "مراكش-آسفي",

@@ -9,6 +9,7 @@ export const EXAMS_FR = [
 // ──────────────────────────────────────────────────
 {
   id: "oriental-2021",
+  pdf: "oriental-2021.pdf",
   subject: "francais",
   year: 2021,
   region: "L'Oriental",
@@ -149,6 +150,7 @@ La querelle reprit de plus belle. Je ne comprenais pas grand-chose à cette disp
 // ──────────────────────────────────────────────────
 {
   id: "marrakech-2018",
+  pdf: "marrakech-2018.pdf",
   subject: "francais",
   year: 2018,
   region: "Marrakech-Safi",
@@ -281,6 +283,7 @@ Je n'aimais pas Zineb. Il m'arrivait même de souhaiter sa disparition. J'étais
 // ──────────────────────────────────────────────────
 {
   id: "casablanca-2023",
+  pdf: "casablanca-2023.pdf",
   subject: "francais",
   year: 2023,
   region: "Casablanca-Settat",
@@ -408,6 +411,7 @@ Ces feuilles les détromperont. Publiées peut-être un jour, elles fixeront leu
 // ──────────────────────────────────────────────────
 {
   id: "fes-2023",
+  pdf: "fes-2023.pdf",
   subject: "francais",
   year: 2023,
   region: "Fès-Meknès",
@@ -552,6 +556,7 @@ Il n'y a plus que le bateau, la tempête et la mer. Tu comprends cela ?`,
 // ──────────────────────────────────────────────────
 {
   id: "benimellal-2024",
+  pdf: "benimellal-2024.pdf",
   subject: "francais",
   year: 2024,
   region: "Beni Mellal-Khénifra",
@@ -692,6 +697,7 @@ Ma mère me raconta qu'elle rendait visite à des voisines. Elle parla de Lalla 
 // ──────────────────────────────────────────────────
 {
   id: "fes-2024",
+  pdf: "fes-2024.pdf",
   subject: "francais",
   year: 2024,
   region: "Fès-Meknès",
@@ -825,6 +831,7 @@ Je me dressai de toute ma taille, je bombai le torse ; j'esquissai même quelque
 // ──────────────────────────────────────────────────
 {
   id: "marrakech-2024",
+  pdf: "marrakech-2024.pdf",
   subject: "francais",
   year: 2024,
   region: "Marrakech-Safi",
@@ -945,6 +952,7 @@ Rahma lui avait offert un bracelet de perles bleues. Il l'accepta avec joie et l
 // ──────────────────────────────────────────────────
 ,{
   id: "marrakech-2017",
+  pdf: "marrakech-2017.pdf",
   subject: "francais",
   year: 2017,
   region: "Marrakech-Safi",
@@ -1091,6 +1099,7 @@ Je perdais mes babouches tous les trois pas. Mes parents voyaient grand. Ni les 
 // ──────────────────────────────────────────────────
 {
   id: "marrakech-2017-rattrapage",
+  pdf: "marrakech-2017-rattrapage.pdf",
   subject: "francais",
   year: 2017,
   region: "Marrakech-Safi",
